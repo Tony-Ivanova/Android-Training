@@ -79,7 +79,7 @@ fun LoginPage(navController: NavHostController) {
 
         Text(
             text = "ETHEREAL ARTEFACTS", style = MaterialTheme.typography.body1.copy(
-                fontSize = 30.sp,
+                fontSize = 31.sp,
             ), modifier = Modifier.padding(top = 16.dp)
         )
 
