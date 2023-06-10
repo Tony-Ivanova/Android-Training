@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">Ethereal Artefacts</string>
+
+    /*Login page*/
+    <string name="login_label">Log in</string>
+    <string name="email_input">Email</string>
+    <string name="password_input">Password</string>
+
+    /*Product page*/
+    <string name="no_rating">No rating available</string>
+    <string name="no_title">No title available</string>
+    <string name="no_short_description">No short description available</string>
+    <string name="no_description">No description available</string>
+    <string name="add_to_cart_btn">+ Add to cart</string>
+    <string name="dollar_sign">$</string>
+
+    /*Errors*/
+    <string name="email_invalid">Invalid email</string>
+    <string name="password_invalid">Invalid password</string>
+    <string name="empty_email_password">Email should be at least 4 characters long.</string>
+    <string name="not_empty">Email or password cannot be empty.</string>
+    <string name="incorrect_credentials">Your email or password are incorrect</string>
+    <string name="fetch_error">Error while fetching data</string>
+
+    /*Content descriptions*/
+    <string name="background_loginP_cd">Purple background for login page</string>
+    <string name="background_cd">Purple background for login page</string>
+    <string name="logo_cd">Logo of Ethereal artefacts</string>
+    <string name="hide_password_cd">Hide password</string>
+    <string name="show_password_cd">Show password</string>
+    <string name="product_picture">Product picture</string>
+    <string name="rating">Rating</string>
+
+    /*Home page*/
+    <string name="home">Home</string>
+    <string name="item">Item</string>
+    <string name="Rating">Rating</string>
+    <string name="Category">Category :</string>
+    <string name="new_product">New product</string>
+    <string name="snack_btn">Snack Button</string>
+
+    /*Search*/
+    <string name="search_placeholder">Search</string>
 </resources>

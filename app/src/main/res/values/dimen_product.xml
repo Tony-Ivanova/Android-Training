@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="productPage_px">30dp</dimen>
+
+    <dimen name="title_pt">14dp</dimen>
+    <dimen name="description_py">30dp</dimen>
+    <dimen name="description_height">308dp</dimen>
+    <dimen name="description_width">121dp</dimen>
+    <dimen name="description_pt">23dp</dimen>
+
+    <dimen name="productPicture_height">341dp</dimen>
+    <dimen name="productPicture_width">353dp</dimen>
+    <dimen name="productPicture_curve">15dp</dimen>
+
+    <dimen name="productPrice_pt">19dp</dimen>
+
+    <dimen name="addToCartButton_width">333dp</dimen>
+    <dimen name="addToCartButton_height">40dp</dimen>
+    <dimen name="addToCartButton_px">39dp</dimen>
+    <dimen name="addToCartButton_pt">52dp</dimen>
+
+    <dimen name="ratingStars_size">19dp</dimen>
+</resources>
