@@ -1,25 +1,26 @@
 package com.example.etherealartefacts.networking
 
-import com.example.etherealartefacts.models.LogInResponse
-import com.example.etherealartefacts.models.LoginRequest
-import com.example.etherealartefacts.models.Product
-import com.example.etherealartefacts.models.Users
+import com.example.etherealartefacts.models.request.Product
+import com.example.etherealartefacts.models.request.ProductWithCategory
+import com.example.etherealartefacts.models.request.Products
+import com.example.etherealartefacts.models.response.LogInResponse
+import com.example.etherealartefacts.models.response.LoginRequest
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface API {
-    @GET(value = "/api")
-    suspend fun getRandomUser(): Users
+    @POST(value = "auth/local")
+    suspend fun login(@Body request: LoginRequest): Response<LogInResponse>
 
-    @POST(value = "/api/auth/local")
-    suspend fun getLoggedInUser(@Body request: LoginRequest): LogInResponse
+    @GET(value = "products/{productId}?populate=*")
+    suspend fun getProduct(@Path("productId") id: Int): ProductWithCategory
 
-    @GET("api/products/{productId}")
-    suspend fun getProduct(
-        @Header("Authorization") jwtToken: String,
-        @Path("productId") productId: Int
-    ): Product
+    @GET(value = "products?populate=*")
+    suspend fun getAllProduct(): Products
+
+    @GET(value = "products?populate=*")
+    suspend fun getAllProductJsonResponse(): Response<List<ProductWithCategory>>
 }

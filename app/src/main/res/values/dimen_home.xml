@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    /*Search bar*/
+    <dimen name="search_corner">30dp</dimen>
+    <dimen name="search_px">30dp</dimen>
+
+    <dimen name="searchIcon_px">15dp</dimen>
+    <dimen name="searchIcon_size">24dp</dimen>
+
+    /*Divider*/
+    <dimen name="divider_size">20dp</dimen>
+    <dimen name="divider_thickness">1dp</dimen>
+
+    /*Product rows*/
+    <dimen name="row_pt">32dp</dimen>
+    <dimen name="row_px">30dp</dimen>
+    <dimen name="productImage_size">130dp</dimen>
+    <dimen name="productImage_curve">15dp</dimen>
+    <dimen name="productColumns_space">20dp</dimen>
+</resources>

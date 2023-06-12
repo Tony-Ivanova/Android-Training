@@ -1,10 +1,4 @@
-package com.example.etherealartefacts.models
-
-data class Users(val results: List<UserModel>)
-
-data class UserModel(val gender: String, val name: NameModel)
-
-data class NameModel(val title: String, val first: String, val last: String)
+package com.example.etherealartefacts.models.response
 
 data class LoginRequest(val identifier: String, val password: String)
 

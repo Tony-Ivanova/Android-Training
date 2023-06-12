@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    /*Login page - Text*/
+    <dimen name="loginLabel_pl">26dp</dimen>
+    <dimen name="loginLabel_pb">17dp</dimen>
+
+    <dimen name="loginInput_width">363dp</dimen>
+    <dimen name="loginInput_height">56dp</dimen>
+    <dimen name="loginInput_px">25dp</dimen>
+    <dimen name="loginInput_py">36dp</dimen>
+    <dimen name="loginInput_border">1dp</dimen>
+
+    <dimen name="loginInput_Text_pl">16.5dp</dimen>
+    <dimen name="loginInput_Text_py">17dp</dimen>
+
+    <dimen name="passwordIcon_pl">14dp</dimen>
+    <dimen name="passwordIcon_size">25dp</dimen>
+
+    <dimen name="errorMessage_pl">17.5dp</dimen>
+
+    /*Login page - Logo*/
+    <dimen name="logo_pt">115.85dp</dimen>
+    <dimen name="logo_px">77dp</dimen>
+    <dimen name="logo_width">256.29dp</dimen>
+    <dimen name="logo_height">161.49dp</dimen>
+    <dimen name="logo_pb">56.66dp</dimen>
+
+    /*Login page - Button*/
+    <dimen name="loginButton_width">333dp</dimen>
+    <dimen name="loginButton_height">40dp</dimen>
+    <dimen name="loginButton_px">40dp</dimen>
+    <dimen name="loginButton_curve">30dp</dimen>
+</resources>
