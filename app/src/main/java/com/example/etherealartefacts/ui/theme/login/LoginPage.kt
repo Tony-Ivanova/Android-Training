@@ -1,7 +1,6 @@
 package com.example.etherealartefacts.ui.theme.login
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,12 +22,12 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -36,21 +35,33 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.example.etherealartefacts.R
 import com.example.etherealartefacts.models.response.LoginRequest
-import com.example.etherealartefacts.networking.JWTTokenProvider
-import com.example.etherealartefacts.ui.theme.ColorPalette
+import com.example.etherealartefacts.ui.theme.BW
+import com.example.etherealartefacts.ui.theme.Purple
+import com.example.etherealartefacts.ui.theme.Red
 import com.example.etherealartefacts.ui.theme.Typography
+import com.example.etherealartefacts.ui.theme.destinations.HomePageDestination
 import com.example.etherealartefacts.ui.theme.loginButton
 import com.example.etherealartefacts.ui.theme.loginInputs
 import com.example.etherealartefacts.ui.theme.loginLabel
 import com.example.etherealartefacts.ui.theme.utils.showToastMessage
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.NavGraph
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@RootNavGraph
+@NavGraph
+annotation class Home(
+    val start: Boolean = false
+)
+
+@Home(start = true)
+@Destination
 @Composable
-fun LoginPage(jwtTokenProvider: JWTTokenProvider, navController: NavHostController) {
+fun LoginPage(destinationsNavigator: DestinationsNavigator) {
     val context = LocalContext.current
 
     val email = remember { mutableStateOf("") }
@@ -59,21 +70,21 @@ fun LoginPage(jwtTokenProvider: JWTTokenProvider, navController: NavHostControll
     val passwordError = remember { mutableStateOf("") }
     val passwordVisibility = remember { mutableStateOf(false) }
     val viewModel: LoginViewModel = hiltViewModel()
+    val login by viewModel.login.collectAsState()
     val isLoadingState = viewModel.isLoading.collectAsState()
     val isLoading = isLoadingState.value
-    val notEmptyInputs = stringResource(id = R.string.not_empty)
-    val loginResult = viewModel.loginResult.collectAsState().value
+    val isError by viewModel.isError.collectAsState()
+    val errorMessage = stringResource(id = R.string.fetch_error)
+
+    val loginResult = viewModel.login.collectAsState().value
     val shouldBeEnabled = remember { mutableStateOf(true) }
 
-    LaunchedEffect(loginResult) {
-        if (loginResult is LoginResult.LoginError) {
-            val errorMessage = loginResult.errorMessage
+    LaunchedEffect(loginResult, isError) {
+        if (isError) {
             shouldBeEnabled.value = false
             showToastMessage(context, errorMessage)
-        } else if (loginResult is LoginResult.LoginSuccess) {
-            val jwtToken = loginResult.jwtToken
-            jwtTokenProvider.setJwtToken(jwtToken)
-            navController.navigate("home")
+        } else if (login) {
+            destinationsNavigator.navigate(HomePageDestination)
         }
     }
 
@@ -139,7 +150,7 @@ fun LoginPage(jwtTokenProvider: JWTTokenProvider, navController: NavHostControll
                         )
                     },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        errorBorderColor = if (emailError.value.isNotEmpty()) ColorPalette.Red.BrickRed else ColorPalette.BW.DarkGray
+                        errorBorderColor = if (emailError.value.isNotEmpty()) Red.BrickRed else BW.DarkGray
                     ),
                 )
 
@@ -147,7 +158,7 @@ fun LoginPage(jwtTokenProvider: JWTTokenProvider, navController: NavHostControll
                     Text(
                         modifier = Modifier.padding(
                             start = dimensionResource(id = R.dimen.errorMessage_pl)
-                        ), text = emailError.value, color = ColorPalette.Red.BrickRed
+                        ), text = emailError.value, color = Red.BrickRed
                     )
                 }
 
@@ -173,7 +184,7 @@ fun LoginPage(jwtTokenProvider: JWTTokenProvider, navController: NavHostControll
                     },
                     visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        errorBorderColor = if (passwordError.value.isNotEmpty()) ColorPalette.BW.DarkGray else ColorPalette.Red.BrickRed
+                        errorBorderColor = if (passwordError.value.isNotEmpty()) BW.DarkGray else Red.BrickRed
                     ),
                     trailingIcon = {
                         IconButton(onClick = {
@@ -195,7 +206,7 @@ fun LoginPage(jwtTokenProvider: JWTTokenProvider, navController: NavHostControll
                     Text(
                         modifier = Modifier.padding(
                             start = dimensionResource(id = R.dimen.errorMessage_pl)
-                        ), text = passwordError.value, color = ColorPalette.Red.BrickRed
+                        ), text = passwordError.value, color = Red.BrickRed
                     )
                 }
             }
@@ -214,38 +225,35 @@ fun LoginPage(jwtTokenProvider: JWTTokenProvider, navController: NavHostControll
                             email.value = "\t"
                             emailError.value = emailErrorMessage
                             shouldBeEnabled.value = false
-                        }
-                        else if (password.value.isEmpty()) {
+                        } else if (password.value.isEmpty()) {
                             val passwordErrorMessage = context.getString(R.string.password_invalid)
                             password.value = "\t"
                             passwordError.value = passwordErrorMessage
                             shouldBeEnabled.value = false
-                        }
-                        else {
+                        } else {
                             val loginRequest = LoginRequest(email.value, password.value)
                             viewModel.login(loginRequest)
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = ColorPalette.Purple.DarkIndigo,
-                        disabledBackgroundColor = ColorPalette.BW.DisabledGray10
+                        backgroundColor = Purple.DarkIndigo,
+                        disabledBackgroundColor = BW.DisabledGray10
                     ),
                     enabled = !isLoading && shouldBeEnabled.value,
 
-                ) {
+                    ) {
                     if (isLoading) {
                         CircularProgressIndicator(
                             modifier = Modifier.height(
                                 dimensionResource(id = R.dimen.loginButton_height)
-                            ), color = ColorPalette.BW.White
+                            ), color = BW.White
                         )
-                    } else if(!shouldBeEnabled.value){
+                    } else if (!shouldBeEnabled.value) {
                         Text(
                             text = stringResource(id = R.string.login_label),
-                            color = ColorPalette.BW.DisabledGray
+                            color = BW.DisabledGray
                         )
-                    }
-                    else {
+                    } else {
                         Text(
                             text = stringResource(id = R.string.login_label),
                             style = Typography.loginButton

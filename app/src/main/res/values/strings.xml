@@ -38,7 +38,31 @@
     <string name="Category">Category :</string>
     <string name="new_product">New product</string>
     <string name="snack_btn">Snack Button</string>
+    <string name="close">Close</string>
+    <string name="filters">Filters</string>
+    <string name="save">Save</string>
+    <string name="product_rating">Product rating</string>
+    <string name="star">Star</string>
 
     /*Search*/
     <string name="search_placeholder">Search</string>
+
+    /*Cart page*/
+    <string name="cart">Cart</string>
+    <string name="quantity">Quantity: </string>
+    <string name="checkOut">Check out</string>
+    <string name="out_of_stock">Out of stock</string>
+    <string name="emptyCart">Your cart is empty. Go to our products</string>
+
+    /*Profile page*/
+    <string name="profile">Profile</string>
+    <string name="logout">Log out</string>
+    <string name="order_history">Order history</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="email_hardcoded">new.wizard28@test.com</string>
+
+
+   /*Top Nav*/
+    <string name="back">Back</string>
+    <string name="shopping_cart">Shopping cart</string>
 </resources>

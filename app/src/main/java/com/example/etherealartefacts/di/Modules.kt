@@ -36,3 +36,4 @@ object NetworkingModules {
     @Singleton
     fun providesRepository(apiService: API) = DefaultRepository(apiService)
 }
+

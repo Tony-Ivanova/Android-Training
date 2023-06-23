@@ -14,21 +14,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import com.example.etherealartefacts.R
-import com.example.etherealartefacts.ui.theme.ColorPalette
+import com.example.etherealartefacts.ui.theme.BW
+import com.example.etherealartefacts.ui.theme.Purple
 import com.example.etherealartefacts.ui.theme.Typography
 import com.example.etherealartefacts.ui.theme.searchPlaceholder
 
 @Composable
-fun SearchBar(searchQuery: MutableState<TextFieldValue>) {
+fun SearchBar(filterCriteria: String, onChange: (String) -> Unit, clear: () -> Unit) {
     val cornerSize = dimensionResource(id = R.dimen.search_corner)
 
     Box(
@@ -39,18 +38,16 @@ fun SearchBar(searchQuery: MutableState<TextFieldValue>) {
         TextField(modifier = Modifier.fillMaxWidth(),
             shape = RectangleShape,
             colors = TextFieldDefaults.textFieldColors(
-                textColor = ColorPalette.BW.Black,
+                textColor = BW.Black,
                 focusedIndicatorColor = Color.Transparent,
                 focusedLabelColor = Color.Transparent,
-                backgroundColor = ColorPalette.Purple.PaleLavender,
+                backgroundColor = Purple.PaleLavender,
                 unfocusedIndicatorColor = Color.Transparent,
                 unfocusedLabelColor = Color.Transparent
             ),
             singleLine = true,
-            value = searchQuery.value,
-            onValueChange = { value ->
-                searchQuery.value = value
-            },
+            value = filterCriteria,
+            onValueChange = onChange,
             placeholder = {
                 Text(
                     text = stringResource(id = R.string.search_placeholder),
@@ -67,10 +64,8 @@ fun SearchBar(searchQuery: MutableState<TextFieldValue>) {
                 )
             },
             trailingIcon = {
-                if (searchQuery.value != TextFieldValue("")) {
-                    IconButton(onClick = {
-                        searchQuery.value = TextFieldValue("")
-                    }) {
+                if (filterCriteria != "") {
+                    IconButton(onClick = clear) {
                         Icon(
                             Icons.Default.Close,
                             contentDescription = "",

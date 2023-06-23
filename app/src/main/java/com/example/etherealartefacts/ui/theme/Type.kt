@@ -25,15 +25,15 @@ val Typography.loginLabel: TextStyle
         fontWeight = FontWeight.Bold,
         fontSize = 30.sp,
         lineHeight = 39.sp,
-        color = ColorPalette.Purple.DarkIndigo
+        color = Purple.DarkIndigo
     )
 
 @Composable
 fun Typography.loginInputs(hasError: Boolean): TextStyle {
     val labelColor = if (hasError) {
-        ColorPalette.Red.BrickRed
+        Red.BrickRed
     } else {
-        ColorPalette.Purple.DarkIndigo
+        Purple.DarkIndigo
     }
 
     return TextStyle(
@@ -53,7 +53,7 @@ val Typography.loginButton: TextStyle
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 21.sp,
-        color = ColorPalette.BW.White
+        color = BW.White
     )
 
 
@@ -64,7 +64,27 @@ val Typography.productTitle: TextStyle
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
         lineHeight = 21.sp,
-        color = ColorPalette.BW.Black
+        color = BW.Black
+    )
+
+val Typography.cartProductTitle: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 19.sp,
+        color = BW.Black
+    )
+
+val Typography.cartProductQuantity: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        color = BW.Black
     )
 
 val Typography.productCategory: TextStyle
@@ -74,7 +94,7 @@ val Typography.productCategory: TextStyle
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 21.sp,
-        color = ColorPalette.BW.DarkGray
+        color = BW.DarkGray
     )
 
 val Typography.productRating: TextStyle
@@ -84,7 +104,7 @@ val Typography.productRating: TextStyle
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp,
         lineHeight = 19.sp,
-        color = ColorPalette.BW.Black
+        color = BW.Black
     )
 
 val Typography.productDescription: TextStyle
@@ -94,7 +114,7 @@ val Typography.productDescription: TextStyle
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 21.sp,
-        color = ColorPalette.BW.Black
+        color = BW.Black
     )
 
 val Typography.productShortDescription: TextStyle
@@ -103,7 +123,7 @@ val Typography.productShortDescription: TextStyle
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
-        color = ColorPalette.BW.DarkGray
+        color = BW.DarkGray
     )
 
 val Typography.productPrice: TextStyle
@@ -113,7 +133,7 @@ val Typography.productPrice: TextStyle
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
         lineHeight = 32.sp,
-        color = ColorPalette.BW.Black
+        color = BW.Black
     )
 
 val Typography.searchPlaceholder: TextStyle
@@ -123,7 +143,7 @@ val Typography.searchPlaceholder: TextStyle
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 21.sp,
-        color = ColorPalette.BW.DarkGray
+        color = BW.DarkGray
     )
 
 val Typography.newProductLabel: TextStyle
@@ -133,5 +153,15 @@ val Typography.newProductLabel: TextStyle
         fontWeight = FontWeight.Medium,
         fontSize = 20.sp,
         lineHeight = 26.sp,
-        color = ColorPalette.BW.Black
+        color = BW.Black
+    )
+
+val Typography.emptyCart: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.Medium,
+        fontSize = 18.sp,
+        lineHeight = 26.sp,
+        color = BW.Black
     )

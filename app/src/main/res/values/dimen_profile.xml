@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="profile_top150">150dp</dimen>
+    <dimen name="profileIcon_size">100dp</dimen>
+
+    <dimen name="orderHistory_icon">21dp</dimen>
+    <dimen name="orderHistory_text_pl">8dp</dimen>
+
+    <dimen name="logout_pb">200dp</dimen>
+</resources>

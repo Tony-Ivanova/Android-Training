@@ -1,8 +1,7 @@
 package com.example.etherealartefacts.repository
 
+import com.example.etherealartefacts.models.request.Category
 import com.example.etherealartefacts.models.request.Product
-import com.example.etherealartefacts.models.request.ProductWithCategory
-import com.example.etherealartefacts.models.request.Products
 import com.example.etherealartefacts.models.response.LogInResponse
 import com.example.etherealartefacts.models.response.LoginRequest
 import com.example.etherealartefacts.networking.API
@@ -17,15 +16,15 @@ class DefaultRepository(
         return apiService.login(request)
     }
 
-    override suspend fun getProduct(productId: Int): ProductWithCategory {
+    override suspend fun getProduct(productId: Int): Response<Product> {
         return apiService.getProduct(productId)
     }
 
-    override suspend fun getAllProduct(): Products {
-        return apiService.getAllProduct()
+    override suspend fun getAllProductJsonResponse(): Response<List<Product>> {
+        return apiService.getAllProductJsonResponse()
     }
 
-    override suspend fun getAllProductJsonResponse(): Response<List<ProductWithCategory>> {
-        return apiService.getAllProductJsonResponse()
+    override suspend fun getAllCategories(): Response<List<Category>> {
+        return apiService.getAllCategories()
     }
 }

@@ -3,9 +3,7 @@ package com.example.etherealartefacts.models.response
 data class LoginRequest(val identifier: String, val password: String)
 
 data class LogInResponse(
-    val jwt: String?,
-    val user: User?,
-    val error: ErrorResponse?
+    val jwt: String?, val user: User?, val error: ErrorResponse?
 )
 
 data class User(
@@ -18,8 +16,5 @@ data class User(
 )
 
 data class ErrorResponse(
-    val status: Int,
-    val name: String,
-    val message: String,
-    val details: Map<String, Any>
+    val status: Int, val name: String, val message: String, val details: Map<String, Any>
 )

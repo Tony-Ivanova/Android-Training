@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cartProduct_height">56dp</dimen>
+    <dimen name="cartProduct_width">56dp</dimen>
+    <dimen name="cartProduct_curve">15dp</dimen>
+
+    <dimen name="cartProduct_title">19dp</dimen>
+    <dimen name="cartProduct_quantity">16dp</dimen>
+
+    <dimen name="emptyCart_pt">40dp</dimen>
+
+    <dimen name="shoppingCart_size">126dp</dimen>
+    <dimen name="shoppingCart_pt">150dp</dimen>
+</resources>

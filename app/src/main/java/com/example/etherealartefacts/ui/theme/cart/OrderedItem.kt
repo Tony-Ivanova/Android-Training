@@ -1,4 +1,4 @@
-package com.example.etherealartefacts.ui.theme.home
+package com.example.etherealartefacts.ui.theme.cart
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -13,10 +13,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,16 +29,15 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.etherealartefacts.R
 import com.example.etherealartefacts.models.request.Product
 import com.example.etherealartefacts.ui.theme.Typography
+import com.example.etherealartefacts.ui.theme.cartProductQuantity
+import com.example.etherealartefacts.ui.theme.cartProductTitle
 import com.example.etherealartefacts.ui.theme.destinations.ProductDetailsPageDestination
-import com.example.etherealartefacts.ui.theme.productCategory
-import com.example.etherealartefacts.ui.theme.productRating
-import com.example.etherealartefacts.ui.theme.productShortDescription
-import com.example.etherealartefacts.ui.theme.productTitle
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-fun ProductItem(product: Product, destinationsNavigator: DestinationsNavigator) {
-
+fun OrderedItem(
+    product: Product, destinationsNavigator: DestinationsNavigator, cartViewModel: CartViewModel
+) {
     Box(modifier = Modifier
         .width(dimensionResource(id = R.dimen.productBox_width))
         .clickable {
@@ -52,8 +51,8 @@ fun ProductItem(product: Product, destinationsNavigator: DestinationsNavigator) 
             Column {
                 Image(
                     modifier = Modifier
-                        .size(dimensionResource(id = R.dimen.productImage_size))
-                        .clip(RoundedCornerShape(dimensionResource(id = R.dimen.productPicture_curve))),
+                        .size(dimensionResource(id = R.dimen.cartProduct_height))
+                        .clip(RoundedCornerShape(dimensionResource(id = R.dimen.cartProduct_curve))),
                     painter = rememberAsyncImagePainter(product.image),
                     contentDescription = stringResource(id = R.string.product_picture),
                     contentScale = ContentScale.Crop
@@ -62,44 +61,34 @@ fun ProductItem(product: Product, destinationsNavigator: DestinationsNavigator) 
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .height(dimensionResource(id = R.dimen.productImage_size))
+                    .height(dimensionResource(id = R.dimen.cartProduct_height))
                     .padding(start = dimensionResource(id = R.dimen.productColumns_space)),
                 verticalArrangement = Arrangement.SpaceEvenly,
 
                 ) {
                 Text(
-                    style = Typography.productCategory,
-                    text = stringResource(id = R.string.Category) + product.category,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Text(
-                    style = Typography.productTitle,
+                    style = Typography.cartProductTitle,
                     text = product.title,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    style = Typography.productShortDescription,
-                    text = (product.shortDescription ?: stringResource(id = R.string.no_title))
+                    style = Typography.cartProductTitle,
+                    text = "${stringResource(id = R.string.dollar_sign)} ${product.price}"
                 )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        style = Typography.productRating, text = product.rating.toString()
-                    )
-                    repeat(product.rating.toInt()) {
-                        Icon(
-                            Icons.Default.Star,
-                            modifier = Modifier.size(dimensionResource(id = R.dimen.ratingStars_size)),
-                            contentDescription = stringResource(id = R.string.rating),
-                            tint = MaterialTheme.colors.primary
-                        )
-                    }
-                }
                 Text(
-                    style = Typography.productCategory,
-                    text = "${stringResource(id = R.string.dollar_sign)} ${product.price.toString()}"
+                    style = Typography.cartProductQuantity,
+                    text = "${stringResource(id = R.string.quantity)} ${
+                        cartViewModel.getQuantityForProduct(
+                            product.id
+                        )
+                    }"
                 )
+            }
+            Column() {
+                IconButton(onClick = { cartViewModel.removeProduct(product) }) {
+                    Icon(Icons.Default.Close, contentDescription = "Remove")
+                }
             }
         }
     }
