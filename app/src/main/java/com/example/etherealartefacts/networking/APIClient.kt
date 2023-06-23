@@ -1,5 +1,6 @@
 package com.example.etherealartefacts.networking
 
+import com.example.etherealartefacts.ui.theme.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,20 +18,14 @@ class APIClient(private val jwtInterceptor: JWTInterceptor) {
     }
 
     private fun createService(): API {
-        val okHttpClient: OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor(
+        val okHttpClient: OkHttpClient = OkHttpClient.Builder().addInterceptor(
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             ).connectTimeout(DEFAULT_TIMEOUT, TimeUnit.MINUTES)
             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.MINUTES)
-            .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MINUTES)
-            .addInterceptor(jwtInterceptor)
-            .build()
+            .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MINUTES).addInterceptor(jwtInterceptor).build()
 
-        val client = Retrofit.Builder()
-            .client(okHttpClient)
-            .baseUrl("https://ethereal-artefacts.fly.dev/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val client = Retrofit.Builder().client(okHttpClient).baseUrl(Constants.baseUrl)
+            .addConverterFactory(GsonConverterFactory.create()).build()
 
         return client.create(API::class.java)
     }

@@ -17,4 +17,7 @@
     <dimen name="productImage_size">130dp</dimen>
     <dimen name="productImage_curve">15dp</dimen>
     <dimen name="productColumns_space">20dp</dimen>
+
+    /*Expandable list*/
+    <dimen name="isCheck_pl">8dp</dimen>
 </resources>

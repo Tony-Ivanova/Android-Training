@@ -1,22 +1,17 @@
 package com.example.etherealartefacts.networking
 
 class JWTTokenProvider(
-    private var jwtToken: String? = null,
-    private var isLoggedIn: Boolean = false
+    var jwtToken: String? = null
 ) {
+    var isLoggedIn: Boolean = false
+        private set
 
-    fun setJwtToken(token: String) {
-        jwtToken = token
-        isLoggedIn = true
-    }
-
-    fun getJwtToken(): String? {
-        return jwtToken
-    }
-
-    fun isLoggedIn(): Boolean {
-        return isLoggedIn
-    }
+    var token: String?
+        get() = jwtToken
+        set(value) {
+            jwtToken = value
+            isLoggedIn = true
+        }
 
     fun clearToken() {
         jwtToken = null

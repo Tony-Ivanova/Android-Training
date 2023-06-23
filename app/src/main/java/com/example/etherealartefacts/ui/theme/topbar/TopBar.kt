@@ -1,3 +1,5 @@
+package com.example.etherealartefacts.ui.theme.topbar
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -8,24 +10,36 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import com.example.etherealartefacts.R
+import com.example.etherealartefacts.ui.theme.destinations.CartPageDestination
+import com.example.etherealartefacts.ui.theme.destinations.ProfilePageDestination
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Destination
 @Composable
-fun TopBar(isBack: Boolean, title: String, navController: NavHostController) {
+fun TopBar(
+    isBack: Boolean,
+    title: String,
+    destinationsNavigator: DestinationsNavigator,
+) {
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                start = 15.dp,
-                end = 15.dp
+                start = dimensionResource(id = R.dimen.px_15),
+                end = dimensionResource(id = R.dimen.px_15)
             )
     ) {
         CenterAlignedTopAppBar(
@@ -39,12 +53,10 @@ fun TopBar(isBack: Boolean, title: String, navController: NavHostController) {
 
             navigationIcon = {
                 if (isBack) {
-                    IconButton(
-                        onClick = { navController.popBackStack() }
-                    ) {
+                    IconButton(onClick = { destinationsNavigator.popBackStack() }) {
                         Icon(
                             Icons.Default.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(id = R.string.back),
                         )
                     }
                 } else {
@@ -55,12 +67,28 @@ fun TopBar(isBack: Boolean, title: String, navController: NavHostController) {
 
             },
             actions = {
+                if (title == stringResource(id = R.string.home)) {
+                    IconButton(
+                        onClick = {
+                            destinationsNavigator.navigate(ProfilePageDestination)
+
+                        },
+                    ) {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = stringResource(id = R.string.profile),
+                        )
+                    }
+                }
                 IconButton(
-                    onClick = { },
+                    onClick = {
+                        destinationsNavigator.navigate(CartPageDestination)
+
+                    },
                 ) {
                     Icon(
                         Icons.Default.ShoppingCart,
-                        contentDescription = "Shopping Cart",
+                        contentDescription = stringResource(id = R.string.shopping_cart),
                     )
                 }
             },

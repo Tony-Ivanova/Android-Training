@@ -1,6 +1,5 @@
 package com.example.etherealartefacts.ui.theme.product
 
-import TopBar
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -25,8 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,33 +34,36 @@ import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.etherealartefacts.R
-import com.example.etherealartefacts.models.request.ProductWithCategory
-import com.example.etherealartefacts.ui.theme.ColorPalette
+import com.example.etherealartefacts.ui.theme.Purple
 import com.example.etherealartefacts.ui.theme.Typography
+import com.example.etherealartefacts.ui.theme.cart.CartViewModel
 import com.example.etherealartefacts.ui.theme.loginButton
 import com.example.etherealartefacts.ui.theme.productCategory
 import com.example.etherealartefacts.ui.theme.productDescription
 import com.example.etherealartefacts.ui.theme.productPrice
 import com.example.etherealartefacts.ui.theme.productRating
 import com.example.etherealartefacts.ui.theme.productTitle
+import com.example.etherealartefacts.ui.theme.topbar.TopBar
 import com.example.etherealartefacts.ui.theme.utils.showToastMessage
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import java.text.DecimalFormat
 
-
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Destination
 @Composable
-fun ProductDetailsPage(productId: Int?, navController: NavHostController) {
+fun ProductDetailsPage(
+    productId: Int, destinationsNavigator: DestinationsNavigator, cartViewModel: CartViewModel
+) {
     val viewModel: ProductViewModel = hiltViewModel()
-    val response by viewModel.response.collectAsState()
+    val product by viewModel.productState.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    val isError by viewModel.isError.collectAsState()
+    val errorMessage = stringResource(id = R.string.fetch_error)
     val context = LocalContext.current
-
-    val productState = remember { mutableStateOf<ProductWithCategory?>(null) }
 
     LaunchedEffect(Unit) {
         productId?.let { id ->
@@ -71,32 +71,29 @@ fun ProductDetailsPage(productId: Int?, navController: NavHostController) {
         }
     }
 
+    LaunchedEffect(isError) {
+        if (isError) {
+            showToastMessage(context, errorMessage)
+        }
+    }
+
     if (isLoading) {
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
             CircularProgressIndicator()
         }
     }
 
-    response?.let { result ->
-        result.onSuccess { product ->
-            productState.value = product
-        }
-        result.onFailure {
-            showToastMessage(context, stringResource(id = R.string.fetch_error))
-        }
-    }
-
-    productState?.value?.let { product ->
+    product?.let { product ->
         Scaffold(
             topBar = {
                 val isBack = true
+
                 TopBar(
                     isBack,
-                    title = stringResource(id = R.string.item),
-                    navController = navController
+                    title = stringResource(id = R.string.cart),
+                    destinationsNavigator = destinationsNavigator
                 )
             },
         ) {
@@ -118,7 +115,7 @@ fun ProductDetailsPage(productId: Int?, navController: NavHostController) {
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     ) {
                         Image(
-                            painter = rememberAsyncImagePainter(product.image),
+                            painter = rememberAsyncImagePainter(product?.image),
                             contentDescription = stringResource(id = R.string.product_picture),
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
@@ -139,13 +136,13 @@ fun ProductDetailsPage(productId: Int?, navController: NavHostController) {
                         ) {
                             Column(modifier = Modifier.weight(1f)) {
                                 Text(
-                                    text = (product.title
+                                    text = (product?.title
                                         ?: stringResource(id = R.string.no_title)),
                                     style = Typography.productTitle
                                 )
 
                                 Text(
-                                    text = stringResource(id = R.string.Category) + (product.category
+                                    text = stringResource(id = R.string.Category) + (product?.category
                                         ?: stringResource(id = R.string.no_short_description)),
                                     style = Typography.productCategory
                                 )
@@ -154,7 +151,7 @@ fun ProductDetailsPage(productId: Int?, navController: NavHostController) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                product.rating?.let { rating ->
+                                product?.rating?.let { rating ->
                                     if (rating > 0) {
                                         Text(
                                             text = rating.toString(),
@@ -180,7 +177,7 @@ fun ProductDetailsPage(productId: Int?, navController: NavHostController) {
                                 .padding(top = dimensionResource(id = R.dimen.description_pt))
                         ) {
                             Text(
-                                text = (product.description
+                                text = (product?.description
                                     ?: stringResource(id = R.string.no_description)),
                                 maxLines = integerResource(id = R.integer.description_maxLines),
                                 overflow = TextOverflow.Ellipsis,
@@ -191,9 +188,11 @@ fun ProductDetailsPage(productId: Int?, navController: NavHostController) {
                         val decimalFormat = DecimalFormat("0.00")
                         Text(
                             modifier = Modifier.padding(top = dimensionResource(id = R.dimen.productPrice_pt)),
-                            text = stringResource(id = R.string.dollar_sign) + decimalFormat.format(
-                                product.price
-                            ),
+                            text = "${stringResource(id = R.string.dollar_sign)}  ${
+                                decimalFormat.format(
+                                    product?.price
+                                )
+                            }",
                             style = Typography.productPrice
                         )
 
@@ -206,20 +205,25 @@ fun ProductDetailsPage(productId: Int?, navController: NavHostController) {
                                     )
                                 )
                         ) {
+
                             Button(
-                                onClick = { },
+                                onClick = {
+                                    cartViewModel.addToOrderedProducts(product)
+                                },
                                 modifier = Modifier
                                     .height(dimensionResource(id = R.dimen.addToCartButton_height))
                                     .width(dimensionResource(id = R.dimen.addToCartButton_width))
                                     .clip(RoundedCornerShape(dimensionResource(id = R.dimen.addToCartButton_px))),
                                 colors = ButtonDefaults.buttonColors(
-                                    backgroundColor = ColorPalette.Purple.DarkIndigo,
+                                    backgroundColor = Purple.DarkIndigo,
                                 ),
                             ) {
+
                                 Text(
                                     text = stringResource(id = R.string.add_to_cart_btn),
                                     style = Typography.loginButton
                                 )
+
                             }
                         }
                     }

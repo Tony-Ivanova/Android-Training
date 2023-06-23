@@ -20,4 +20,6 @@
     <dimen name="addToCartButton_pt">52dp</dimen>
 
     <dimen name="ratingStars_size">19dp</dimen>
+
+    <dimen name="productBox_width">353dp</dimen>
 </resources>
